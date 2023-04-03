@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private LayerMask _whatIsBase;
 
+    private NavMeshSurface navSurface;
+
     private Camera _mainCam;
 
     private void Awake()
@@ -20,7 +23,15 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Multiple GameManager is running");
         }
         Instance = this;
+
+        navSurface = GetComponent<NavMeshSurface>();
     }
+
+    void ReBakeSurface()
+    {
+        navSurface.BuildNavMesh();
+    }
+
     private void Start()
     {
         _mainCam = Camera.main; //메인 카메라 캐싱
@@ -38,6 +49,8 @@ public class GameManager : MonoBehaviour
                 BaseBlock block = hit.collider.GetComponent<BaseBlock>();
 
                 block?.ClickBaseBlock();
+
+                ReBakeSurface();
             }
         }
     }
