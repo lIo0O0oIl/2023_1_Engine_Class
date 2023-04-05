@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private CommonAIState currentState;
+
+    private Transform targetTrm;
+    public Transform TargetTrm => targetTrm;
+
+    protected virtual void Awake()
     {
-        
+        List<CommonAIState> states = new List<CommonAIState>();
+        transform.Find("AI").GetComponentsInChildren<CommonAIState>(states);
+
+        states.ForEach(s => s.SetUp(transform));    // 여기서 셋업이 시작됨
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Start()
     {
-        
+        targetTrm = GameManager.Instance.PlayerTrm;
+    }
+
+    public void ChangeState(CommonAIState state)
+    {
+        currentState?.OnExitState();
+        currentState = state;
+        currentState?.OnEnterState();
+    }
+
+    protected virtual void Update()
+    {
+        currentState?.UpdateState();
     }
 }
