@@ -5,6 +5,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    [SerializeField]
+    private PoolingListSO initPoolList;
+
+
     private Transform playerTrm;
     public Transform PlayerTrm
     {
@@ -20,5 +25,16 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Multiple GameManager is running");
         }
         Instance = this;
+
+        CreatePool();
+    }
+
+    private void CreatePool()
+    {
+        PoolManager.Instance = new PoolManager(transform);
+        /*initPoolList.PoolList.ForEach(p =>
+        {
+            PoolManager.Instance.CreatePool(p.Prefab, p.count);
+        });*/
     }
 }
