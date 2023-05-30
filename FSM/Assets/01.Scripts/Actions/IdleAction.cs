@@ -8,12 +8,14 @@ public class IdleAction : AIAction
     protected override void Awake()
     {
         base.Awake();
-        renderer = brain.GetComponent<MeshRenderer>();
+        //renderer = brain.GetComponent<MeshRenderer>();
     }
 
     public override void TakeAction()
     {
         // do nothing;
-        renderer.material.color = new Color(0, 0, 1);   // 파란색 컬러로 셋
+        Debug.Log("걷고있니..?");
+        anim.NoWalk();
+        //renderer.material.color = new Color(0, 0, 1);   // 파란색 컬러로 셋
     }
 }
