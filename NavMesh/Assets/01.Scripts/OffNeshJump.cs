@@ -32,7 +32,6 @@ public class OffNeshJump : MonoBehaviour
 
     IEnumerator JumpTo()
     {
-        Debug.Log("이 코드 작동하나?");
         navAgent.isStopped = true;
         OffMeshLinkData linkData = navAgent.currentOffMeshLinkData;
         Vector3 start = transform.position;
